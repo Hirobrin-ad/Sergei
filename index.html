@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Эксклюзивное послание для Сергея</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Russo+One&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Inter', 'sans-serif'],
+            fun: ['"Russo One"', 'sans-serif']
+          },
+          colors: {
+            ios: {
+              bg: '#050505',
+              card: '#1C1C1E',
+              red: '#FF3B30',
+              redHover: '#FF453A',
+              orange: '#FF9500',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      background-color: #050505;
+      overflow: hidden;
+    }
+
+    /* Red Glow Button Effects */
+    .btn-red-glow {
+      background: linear-gradient(135deg, #FF3B30 0%, #D70015 100%);
+      box-shadow: 0 8px 25px -4px rgba(255, 59, 48, 0.6);
+      transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, filter 0.15s ease;
+    }
+    .btn-red-glow:active {
+      transform: scale(0.94);
+      box-shadow: 0 4px 12px -2px rgba(255, 59, 48, 0.8);
+      filter: brightness(1.2);
+    }
+
+    /* Glassmorphism iOS card */
+    .glass-card {
+      background: rgba(28, 28, 30, 0.75);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Screen Slide Animations */
+    .screen-fade-in {
+      animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInScale {
+      0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    /* Shimmer Rainbow Text Effect */
+    @keyframes rainbowShimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .text-rainbow {
+      background: linear-gradient(90deg, #ff3b30, #ff9500, #ffcc00, #34c759, #007aff, #af52de, #ff3b30);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowShimmer 3s ease infinite;
+    }
+
+    /* Dancing Stickman Animations */
+    @keyframes danceBody {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-10px) rotate(-5deg); }
+      50% { transform: translateY(0) rotate(0deg); }
+      75% { transform: translateY(-10px) rotate(5deg); }
+    }
+    @keyframes danceArmLeft {
+      0%, 100% { transform: rotate(-35deg); }
+      50% { transform: rotate(45deg); }
+    }
+    @keyframes danceArmRight {
+      0%, 100% { transform: rotate(35deg); }
+      50% { transform: rotate(-45deg); }
+    }
+    @keyframes danceLegLeft {
+      0%, 100% { transform: rotate(-15deg); }
+      50% { transform: rotate(30deg); }
+    }
+    @keyframes danceLegRight {
+      0%, 100% { transform: rotate(15deg); }
+      50% { transform: rotate(-30deg); }
+    }
+
+    .dancing-stickman {
+      animation: danceBody 0.5s infinite ease-in-out;
+      transform-origin: bottom center;
+    }
+    .arm-left {
+      animation: danceArmLeft 0.5s infinite ease-in-out;
+      transform-origin: 50px 45px;
+    }
+    .arm-right {
+      animation: danceArmRight 0.5s infinite ease-in-out;
+      transform-origin: 50px 45px;
+    }
+    .leg-left {
+      animation: danceLegLeft 0.5s infinite ease-in-out;
+      transform-origin: 50px 80px;
+    }
+    .leg-right {
+      animation: danceLegRight 0.5s infinite ease-in-out;
+      transform-origin: 50px 80px;
+    }
+
+    /* Arrow Movements pointing directly inside at the stickman */
+    @keyframes pointLeftToRight {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(14px); }
+    }
+    @keyframes pointRightToLeft {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-14px); }
+    }
+    .arrow-left-push {
+      animation: pointLeftToRight 0.5s infinite ease-in-out;
+    }
+    .arrow-right-push {
+      animation: pointRightToLeft 0.5s infinite ease-in-out;
+    }
+
+    /* Equalizer Sound Bars */
+    .eq-bar {
+      width: 3px;
+      background-color: #34c759;
+      border-radius: 2px;
+      animation: eqBounce 0.4s infinite ease-in-out alternate;
+    }
+    .eq-bar:nth-child(1) { height: 16px; animation-delay: 0.1s; }
+    .eq-bar:nth-child(2) { height: 24px; animation-delay: 0.3s; }
+    .eq-bar:nth-child(3) { height: 12px; animation-delay: 0.2s; }
+    .eq-bar:nth-child(4) { height: 20px; animation-delay: 0.4s; }
+
+    @keyframes eqBounce {
+      0% { transform: scaleY(0.3); }
+      100% { transform: scaleY(1.3); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-0 sm:p-4 text-white antialiased">
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+  <!-- Main Frame Container (iPhone Shell) -->
+  <div class="relative w-full max-w-md h-[100vh] sm:h-[844px] bg-black sm:rounded-[48px] shadow-2xl overflow-hidden flex flex-col border-0 sm:border-[8px] border-[#272729]">
+
+    <!-- Header Bar -->
+    <div class="w-full pt-4 pb-2 flex flex-col items-center justify-center z-40 select-none shrink-0 border-b border-zinc-900/60 bg-black/50">
+      <div class="hidden sm:flex items-center justify-center w-28 h-5 bg-black rounded-full border border-zinc-800/80 shadow-inner mb-2">
+        <div class="w-2.5 h-2.5 rounded-full bg-zinc-900 mr-2 border border-zinc-800"></div>
+        <div class="w-2.5 h-2.5 rounded-full bg-blue-950/40"></div>
+      </div>
+      <div class="text-[11px] font-semibold text-zinc-500 uppercase tracking-widest">
+        Секретное уведомление
+      </div>
+    </div>
+
+    <!-- MAIN INTERACTIVE VIEWPORT CONTAINER -->
+    <div id="screen-container" class="relative flex-1 w-full p-6 flex flex-col items-center justify-center text-center overflow-hidden">
+
+      <!-- SCREEN 1: Я знаю Что ты смотришь Сергей -->
+      <div id="screen-1" class="screen-fade-in w-full flex flex-col items-center justify-between h-full py-12">
+        <div class="flex-1 flex flex-col items-center justify-center">
+          <div class="w-20 h-20 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-8 animate-pulse">
+            <svg class="w-10 h-10 text-ios-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight leading-snug px-2 text-white">
+            Я знаю Что ты смотришь <br/><span class="text-ios-red font-fun">Сергей</span>
+          </h1>
+        </div>
+
+        <button onclick="goToScreen(2)" class="btn-red-glow w-full py-4 rounded-2xl text-white text-lg font-bold tracking-wide flex items-center justify-center gap-2">
+          <span>Продолжить</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </div>
+
+      <!-- SCREEN 2: КВАРТИРНЫЙ КУПИДОН НЕ СМОТРИ СЮДА -->
+      <div id="screen-2" class="screen-fade-in w-full flex flex-col items-center justify-between h-full py-12 hidden">
+        <div class="flex-1 flex flex-col items-center justify-center">
+          <div class="w-20 h-20 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-8 animate-bounce">
+            <svg class="w-10 h-10 text-ios-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-black tracking-tight leading-snug px-1 text-white uppercase">
+            🏠💘 <br/>
+            <span class="text-orange-400 font-fun">КВАРТИРНЫЙ КУПИДОН</span> <br/>
+            НЕ СМОТРИ СЮДА
+          </h1>
+        </div>
+
+        <button onclick="goToScreen(3)" class="btn-red-glow w-full py-4 rounded-2xl text-white text-lg font-bold tracking-wide flex items-center justify-center gap-2">
+          <span>Продолжить</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </div>
+
+      <!-- SCREEN 3: НУ ЗАЧЕМ ТЫ СМОТРИШЬ -->
+      <div id="screen-3" class="screen-fade-in w-full flex flex-col items-center justify-between h-full py-12 hidden">
+        <div class="flex-1 flex flex-col items-center justify-center">
+          <div class="text-6xl mb-6 animate-pulse">🤦‍♂️</div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight leading-snug text-white font-fun">
+            НУ ЗАЧЕМ ТЫ <br/><span class="text-ios-red">СМОТРИШЬ</span>
+          </h1>
+        </div>
+
+        <button onclick="goToScreen(4)" class="btn-red-glow w-full py-4 rounded-2xl text-white text-lg font-bold tracking-wide flex items-center justify-center gap-2">
+          <span>Конец</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+        </button>
+      </div>
+
+      <!-- SCREEN 4 (FINAL REVEAL): DANCING MAN & "ЭТО СЕРГЕЙ" -->
+      <div id="screen-4" class="screen-fade-in w-full flex flex-col items-center justify-between h-full py-4 hidden">
+        
+        <!-- Header Text -->
+        <div class="w-full text-center mt-1">
+          <h1 class="text-4xl sm:text-5xl font-black font-fun text-rainbow tracking-wider drop-shadow-md">
+            ЭТО СЕРГЕЙ
+          </h1>
+          <p class="text-xs text-zinc-400 mt-1 uppercase tracking-widest font-semibold">Наш главный квартирный купидон 😎</p>
+        </div>
+
+        <!-- STICKMAN STAGE WITH ACCURATE DIRECT POINTER ARROWS -->
+        <div class="relative w-full max-w-[340px] h-64 sm:h-72 my-1 flex items-center justify-center">
+          
+          <!-- LEFT ARROW (Pointing RIGHT straight into stickman body) -->
+          <div class="absolute left-0 top-1/2 -translate-y-1/2 z-30 flex items-center arrow-left-push">
+            <span class="bg-red-600 text-white font-black text-xs px-1.5 py-1 rounded-l-md uppercase shadow-lg border border-red-400">СЕРГЕЙ</span>
+            <svg class="w-9 h-9 text-red-500 filter drop-shadow-[0_0_12px_rgba(255,59,48,0.9)]" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 10h10V5l8 7-8 7v-5H4z"/>
+            </svg>
+          </div>
+
+          <!-- DANCING STICKMAN DISPLAY CARD -->
+          <div class="dancing-stickman relative w-48 h-60 bg-zinc-900/90 rounded-3xl border-2 border-ios-orange flex items-center justify-center shadow-[0_0_35px_rgba(255,149,0,0.35)] z-10 overflow-visible">
+            
+            <svg class="w-full h-full p-2" viewBox="0 0 100 120">
+              <!-- Head -->
+              <circle cx="50" cy="25" r="13" fill="#30D158" stroke="#ffffff" stroke-width="2"/>
+              <!-- Glasses -->
+              <rect x="42" y="21" width="7" height="4" rx="1" fill="#000000"/>
+              <rect x="51" y="21" width="7" height="4" rx="1" fill="#000000"/>
+              <line x1="48" y1="23" x2="52" y2="23" stroke="#000000" stroke-width="2"/>
+              <!-- Smile -->
+              <path d="M 44 31 Q 50 36 56 31" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+              <!-- Crown -->
+              <polygon points="41,13 45,18 50,11 55,18 59,13" fill="#FFD60A"/>
+              
+              <!-- Target Pointing Area On Torso -->
+              <circle cx="50" cy="55" r="18" fill="rgba(255, 59, 48, 0.15)" stroke="#FF3B30" stroke-width="1.5" stroke-dasharray="3 3"/>
+
+              <!-- Body Line -->
+              <line x1="50" y1="38" x2="50" y2="78" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+              
+              <!-- Left Arm -->
+              <g class="arm-left">
+                <line x1="50" y1="45" x2="25" y2="60" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="22" cy="62" r="4" fill="#FF3B30"/>
+              </g>
+
+              <!-- Right Arm -->
+              <g class="arm-right">
+                <line x1="50" y1="45" x2="75" y2="30" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="77" cy="28" r="4" fill="#FFD60A"/>
+              </g>
+
+              <!-- Left Leg -->
+              <g class="leg-left">
+                <line x1="50" y1="78" x2="30" y2="108" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+              </g>
+
+              <!-- Right Leg -->
+              <g class="leg-right">
+                <line x1="50" y1="78" x2="70" y2="108" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+              </g>
+            </svg>
+            
+            <!-- Target Tag directly on stickman (ИСПРАВЛЕНЫ СТРЕЛКИ НА 👉 СЕРГЕЙ 👈) -->
+            <div class="absolute -bottom-3 inset-x-4 bg-ios-red text-white font-extrabold text-[11px] py-0.5 rounded-full uppercase shadow-lg border border-white/20 tracking-wider text-center">
+              👉 СЕРГЕЙ 👈
+            </div>
+          </div>
+
+          <!-- RIGHT ARROW (Pointing LEFT straight into stickman body) -->
+          <div class="absolute right-0 top-1/2 -translate-y-1/2 z-30 flex items-center arrow-right-push">
+            <svg class="w-9 h-9 text-red-500 filter drop-shadow-[0_0_12px_rgba(255,59,48,0.9)] transform rotate-180" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 10h10V5l8 7-8 7v-5H4z"/>
+            </svg>
+            <span class="bg-red-600 text-white font-black text-xs px-1.5 py-1 rounded-r-md uppercase shadow-lg border border-red-400">СЕРГЕЙ</span>
+          </div>
+
+        </div>
+
+        <!-- Audio Indicator & Controls -->
+        <div class="w-full flex flex-col gap-2.5 mb-2">
+          <!-- Playing Status Banner -->
+          <div id="music-status-card" class="glass-card px-4 py-2.5 rounded-xl flex items-center justify-between border border-zinc-800">
+            <div class="flex items-center gap-2">
+              <div id="eq-visualizer" class="flex items-end gap-1 h-5">
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+              </div>
+              <span id="music-status-text" class="text-xs font-semibold text-zinc-300">🎶 Танцевальный трек играет...</span>
+            </div>
+            <span class="text-[10px] bg-green-500/20 text-green-400 font-bold px-2 py-0.5 rounded-full border border-green-500/30">
+              LOOP
+            </span>
+          </div>
+
+          <!-- Toggle Track Button -->
+          <button onclick="toggleMusicTrack()" id="music-btn" class="w-full py-3 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold tracking-wide border border-zinc-700 flex items-center justify-center gap-2 transition-all">
+            <span id="music-icon">🔊</span>
+            <span id="music-text">Выключить музыку</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Home Bar Indicator -->
+    <div class="absolute bottom-1 inset-x-0 flex justify-center z-50 pointer-events-none">
+      <div class="w-32 h-1 bg-white/30 rounded-full"></div>
+    </div>
+
+  </div>
+
+  <script>
+    /* Web Audio Synthesizer Engine */
+    let audioCtx = null;
+    let isTrackPlaying = false;
+    let loopTimer = null;
+
+    function getOrCreateAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // UI Click Sound
+    function playClickSound(freq = 520) {
+      try {
+        const ctx = getOrCreateAudioContext();
+        if (!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.08);
+      } catch(e) {}
+    }
+
+    // Dance Chiptune Loop
+    function startContinuousDanceLoop() {
+      if (isTrackPlaying) return;
+      
+      const ctx = getOrCreateAudioContext();
+      if (!ctx) return;
+
+      isTrackPlaying = true;
+      updateMusicUI(true);
+
+      const bassline = [130.81, 130.81, 164.81, 146.83, 130.81, 130.81, 174.61, 164.81]; 
+      const leadMelody = [523.25, 659.25, 783.99, 659.25, 1046.50, 783.99, 880.00, 987.77]; 
+      let step = 0;
+
+      function playStep() {
+        if (!isTrackPlaying) return;
+
+        try {
+          const now = ctx.currentTime;
+
+          // Synth Lead
+          const oscLead = ctx.createOscillator();
+          const gainLead = ctx.createGain();
+          oscLead.type = (step % 4 === 0) ? 'sawtooth' : 'square';
+          oscLead.frequency.setValueAtTime(leadMelody[step % leadMelody.length], now);
+          gainLead.gain.setValueAtTime(0.08, now);
+          gainLead.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+          oscLead.connect(gainLead);
+          gainLead.connect(ctx.destination);
+          oscLead.start(now);
+          oscLead.stop(now + 0.18);
+
+          // Punchy Bassline
+          const oscBass = ctx.createOscillator();
+          const gainBass = ctx.createGain();
+          oscBass.type = 'triangle';
+          oscBass.frequency.setValueAtTime(bassline[step % bassline.length], now);
+          gainBass.gain.setValueAtTime(0.2, now);
+          gainBass.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+          oscBass.connect(gainBass);
+          gainBass.connect(ctx.destination);
+          oscBass.start(now);
+          oscBass.stop(now + 0.2);
+
+          // Percussion
+          if (step % 2 === 1) {
+            const noiseOsc = ctx.createOscillator();
+            const noiseGain = ctx.createGain();
+            noiseOsc.type = 'square';
+            noiseOsc.frequency.setValueAtTime(3500 + Math.random() * 1000, now);
+            noiseGain.gain.setValueAtTime(0.03, now);
+            noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+            noiseOsc.connect(noiseGain);
+            noiseGain.connect(ctx.destination);
+            noiseOsc.start(now);
+            noiseOsc.stop(now + 0.05);
+          }
+
+          step++;
+        } catch(e) {}
+      }
+
+      loopTimer = setInterval(playStep, 160);
+    }
+
+    function stopContinuousDanceLoop() {
+      if (loopTimer) {
+        clearInterval(loopTimer);
+        loopTimer = null;
+      }
+      isTrackPlaying = false;
+      updateMusicUI(false);
+    }
+
+    function toggleMusicTrack() {
+      playClickSound(600);
+      if (isTrackPlaying) {
+        stopContinuousDanceLoop();
+      } else {
+        startContinuousDanceLoop();
+      }
+    }
+
+    function updateMusicUI(playing) {
+      const btnText = document.getElementById('music-text');
+      const btnIcon = document.getElementById('music-icon');
+      const statusText = document.getElementById('music-status-text');
+      const eqVis = document.getElementById('eq-visualizer');
+
+      if (playing) {
+        if (btnText) btnText.textContent = 'Выключить музыку';
+        if (btnIcon) btnIcon.textContent = '🔊';
+        if (statusText) statusText.textContent = '🎶 Танцевальный трек играет...';
+        if (eqVis) eqVis.style.opacity = '1';
+      } else {
+        if (btnText) btnText.textContent = 'Включить музыку';
+        if (btnIcon) btnIcon.textContent = '🎵';
+        if (statusText) statusText.textContent = '⏸️ Музыка на паузе';
+        if (eqVis) eqVis.style.opacity = '0.3';
+      }
+    }
+
+    // Trigger Confetti Fireworks
+    function triggerConfetti() {
+      try {
+        const myCanvas = document.getElementById('confetti-canvas');
+        if (!myCanvas) return;
+        
+        const confettiObj = confetti.create(myCanvas, {
+          resize: true,
+          useWorker: true
+        });
+
+        confettiObj({
+          particleCount: 100,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+
+        setTimeout(() => {
+          confettiObj({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 } });
+          confettiObj({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 } });
+        }, 200);
+
+      } catch(e) {}
+    }
+
+    // Navigation Logic
+    function goToScreen(screenNumber) {
+      playClickSound(screenNumber === 4 ? 800 : 450);
+
+      for (let i = 1; i <= 4; i++) {
+        const scr = document.getElementById(`screen-${i}`);
+        if (scr) scr.classList.add('hidden');
+      }
+
+      const target = document.getElementById(`screen-${screenNumber}`);
+      if (target) {
+        target.classList.remove('hidden');
+      }
+
+      if (screenNumber === 4) {
+        triggerConfetti();
+        startContinuousDanceLoop();
+      }
+    }
+  </script>
+</body>
+</html>
